@@ -1,7 +1,6 @@
 import React from 'react';
 import SpinnerStyle from './BigSpinner.module.css';
 
-console.log(SpinnerStyle.appLoadingWrap);
 const BigSpinner: React.FC = () => {
 	return (
 		<div>

@@ -33,7 +33,6 @@ const TheSider = memo(() => {
 	}, [localtion]);
 
 	const handleClick = (evt) => {
-		console.log(evt);
 		const menuItem = menus.find((item) => item.key == evt.key);
 		navigate(menuItem.path);
 	};

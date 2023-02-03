@@ -1,16 +1,18 @@
+import { withLocation } from '@/utils/withLocation';
 import { withRouter } from '@/utils/withRouter';
 import { InfoCircleTwoTone } from '@ant-design/icons';
-import { Card, Col, Modal, Row } from 'antd';
+import { Alert, Card, Col, Modal, Row } from 'antd';
 import { default as ForEditor } from 'for-editor';
 import { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { NavigateFunction } from 'react-router';
+import { Location, NavigateFunction } from 'react-router';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-Gfm';
 interface PropsType {
 	Content?: string;
 	navigate: NavigateFunction;
+	location: Location;
 }
 interface StateType {
 	content: string;
@@ -22,6 +24,9 @@ class Editor extends Component<PropsType, StateType> {
 			content: props?.Content ?? ''
 		};
 		this.gotoReader = this.gotoReader.bind(this);
+	}
+	componentDidMount(): void {
+		this.setState({ content: this.props.location.state?.content ?? '' });
 	}
 	handleChange = (value) => {
 		this.setState({ content: value });
@@ -52,7 +57,13 @@ class Editor extends Component<PropsType, StateType> {
 		const { content } = this.state;
 		return (
 			<div>
-				<Row>
+				<Alert
+					message="点击工具栏中的保存按钮或使用快捷键Ctrl + S，即可进入文档阅读页"
+					type="info"
+					style={{ marginBottom: 20 }}
+					showIcon
+				/>
+				<Row gutter={20}>
 					<Col span={12}>
 						<ForEditor
 							value={content}
@@ -110,4 +121,4 @@ class Editor extends Component<PropsType, StateType> {
 		);
 	}
 }
-export default withRouter(Editor);
+export default withRouter(withLocation(Editor));
