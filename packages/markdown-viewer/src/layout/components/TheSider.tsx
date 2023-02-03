@@ -14,11 +14,23 @@ const TheSider = memo(() => {
 
 	const [selectedKeys, setKeys] = useState(['0']);
 
-	useEffect(() => {
+	const refreshMenu = () => {
 		const firstPath = `/${localtion.pathname.split('/')?.[1]}`;
+		// 如果是首页
+		if (firstPath == '/index') {
+			return setKeys(['0']);
+		}
 		const key = menus.find((item) => firstPath == item.path)?.key;
 		setKeys([key?.toString()]);
+	};
+
+	useEffect(() => {
+		refreshMenu();
 	}, []);
+
+	useEffect(() => {
+		refreshMenu();
+	}, [localtion]);
 
 	const handleClick = (evt) => {
 		console.log(evt);

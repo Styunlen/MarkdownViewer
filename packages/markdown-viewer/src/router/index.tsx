@@ -43,7 +43,7 @@ const RouterRoot: React.FC = memo(() => {
 	React.useEffect.call(
 		this,
 		() => {
-			console.log(location);
+			// console.log(location);
 			routes
 				.find(
 					(route) =>

@@ -1,14 +1,10 @@
-import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd';
+import { Breadcrumb, Layout, theme } from 'antd';
 import React from 'react';
+import TheHeader from './components/TheHeader';
 import TheMain from './components/TheMain';
 import TheSider from './components/TheSider';
 
 const { Header, Content, Footer } = Layout;
-
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-	key,
-	label: `nav ${key}`
-}));
 
 const MarkdownViewerLayout: React.FC = () => {
 	const {
@@ -16,15 +12,7 @@ const MarkdownViewerLayout: React.FC = () => {
 	} = theme.useToken();
 	return (
 		<Layout>
-			<Header className="header">
-				<div className="logo" />
-				<Menu
-					theme="dark"
-					mode="horizontal"
-					defaultSelectedKeys={['2']}
-					items={items1}
-				/>
-			</Header>
+			<TheHeader></TheHeader>
 			<Content style={{ padding: '0 50px' }}>
 				<Breadcrumb style={{ margin: '16px 0' }}>
 					<Breadcrumb.Item>Home</Breadcrumb.Item>
