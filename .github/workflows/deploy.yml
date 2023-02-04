@@ -14,14 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.26.3
       - name: Use Node.js 16.18.1
         uses: actions/setup-node@v3
         with:
           node-version: 16.18.1
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm build
+      - run: cd ./packages/markdown-viewer/ && npm install
+      - run: cd ./packages/markdown-viewer/ && npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist # The folder the action should deploy.
+          folder: ./packages/markdown-viewer/dist # The folder the action should deploy.
