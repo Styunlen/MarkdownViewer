@@ -2,8 +2,8 @@
  * @forked from {https://github.com/KELEN/katelog}
  * @author @Styunlen
  */
-import { Alert, Anchor, Empty } from 'antd';
-import { useEffect } from 'react';
+import { Alert, Anchor } from 'antd';
+import { useEffect, useState } from 'react';
 
 // TODO: need refactor
 const Catalog: React.FC<{ contentRef: HTMLElement }> = function (props) {
@@ -12,21 +12,22 @@ const Catalog: React.FC<{ contentRef: HTMLElement }> = function (props) {
 		active: null // 激活时候回调
 	};
 	const option = Object.assign({}, defaultProps, props);
-	const $content = option.contentRef;
-	if (!$content) {
-		return (
-			<Alert
-				key={props.contentRef?.innerHTML}
-				description="文章加载中"
-				showIcon
-			></Alert>
-		);
-	}
-	useEffect(() => {}, [props.contentRef]);
-	const allCatalogs = $content.querySelectorAll(option.selector.join());
+	let $content = option.contentRef;
+	const [allCatalogs, setAllCatalogs] = useState<Array<Element>>([]);
+	const [tree, setTree] = useState([]);
 
-	const tree = getCatalogsTree(allCatalogs);
+	useEffect(() => {
+		$content = props.contentRef;
+		const cataLogs =
+			$content &&
+			Array.from($content?.querySelectorAll(option.selector.join()));
+		setAllCatalogs(cataLogs);
+	}, [props.contentRef]);
 
+	useEffect(() => {
+		const tree = getCatalogsTree(allCatalogs);
+		setTree(tree);
+	}, [allCatalogs]);
 	/**
 	 * 获取目录一维数组
 	 * @param Catalogs
@@ -66,6 +67,9 @@ const Catalog: React.FC<{ contentRef: HTMLElement }> = function (props) {
 	 * @param Catalogs
 	 */
 	function getCatalogsTree(Catalogs) {
+		if (!Catalogs) {
+			return [];
+		}
 		const CatalogsArr = getCatalogsArray(Catalogs);
 		const treeList: Array<any> = [];
 		const hashmap: any = {};
@@ -133,10 +137,13 @@ const Catalog: React.FC<{ contentRef: HTMLElement }> = function (props) {
 		return priority;
 	}
 
-	return tree.length != 0 ? (
-		<Anchor affix={false} showInkInFixed items={tree}></Anchor>
-	) : (
-		<Alert description="文章木得目录" showIcon></Alert>
+	return (
+		<div key={tree.length}>
+			{tree.length != 0 && (
+				<Anchor affix={false} showInkInFixed items={tree}></Anchor>
+			)}
+			{tree.length == 0 && <Alert description="文章木得目录" showIcon></Alert>}
+		</div>
 	);
 };
 export default Catalog;

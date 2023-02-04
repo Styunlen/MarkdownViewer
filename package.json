@@ -12,7 +12,8 @@
 		"lint:eslint": "pnpm eslint --fix",
 		"prepare": "husky install",
 		"pretty": "pnpm pretty-quick",
-		"preview": "pnpm -F markdown-viewer preview"
+		"preview": "pnpm -F markdown-viewer preview",
+		"preview:build": "pnpm -F markdown-viewer build && pnpm -F markdown-viewer preview"
 	},
 	"lint-staged": {
 		"*.js": [
