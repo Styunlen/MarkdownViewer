@@ -1,7 +1,7 @@
 import { withLocation } from '@/utils/withLocation';
 import { withRouter } from '@/utils/withRouter';
-import { Affix, Button, Card, Col, Empty, Row } from 'antd';
-import { PrinterOutlined, EditOutlined } from '@ant-design/icons';
+import { Affix, Button, Card, Col, Empty, FloatButton, Row } from 'antd';
+import { PrinterOutlined, EditOutlined, UpOutlined } from '@ant-design/icons';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link, Location, NavigateFunction } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-Gfm';
 import print from 'print-js';
 import Catalog from './component/Catelog';
+import './reader.css';
 class Reader extends React.Component<
 	{ location: Location; navigate: NavigateFunction },
 	{ content: string }
@@ -18,7 +19,11 @@ class Reader extends React.Component<
 	constructor(props) {
 		super(props);
 		this.state = {
-			content: ''
+			/* 
+				这里需要使用一个空格作为content的初始值, 
+				如果为空字符串, 则Catlog组件不会随着content刷新 
+			*/
+			content: ' '
 		};
 		this.handleClick = this.handleClick.bind(this);
 		this.contentRef = React.createRef();
@@ -30,6 +35,10 @@ class Reader extends React.Component<
 		this.props.navigate('/editor/index', {
 			state: { content: this.state.content }
 		});
+	}
+	handleToTop() {
+		document.documentElement.scrollTop = 0;
+		document.body.scrollTop = 0;
 	}
 	render(): React.ReactNode {
 		const { content } = this.state;
@@ -59,8 +68,8 @@ class Reader extends React.Component<
 							<PrinterOutlined />
 							打印
 						</Button>
-						<Row>
-							<Col offset={2} span={15}>
+						<Row gutter={20}>
+							<Col offset={2} span={16}>
 								<div
 									className="pageContent"
 									id="pageContent"
@@ -84,17 +93,6 @@ class Reader extends React.Component<
 														{children}
 													</code>
 												);
-											},
-											h1({ node, className, children, ...props }) {
-												return (
-													<h1
-														style={{ fontSize: '2em', fontWeight: 'bold' }}
-														className={className}
-														{...props}
-													>
-														{children}
-													</h1>
-												);
 											}
 										}}
 										remarkPlugins={[remarkGfm]}
@@ -103,15 +101,19 @@ class Reader extends React.Component<
 									</ReactMarkdown>
 								</div>
 							</Col>
-							<Col offset={1} span={5}>
-								<Affix key={this.contentRef.current?.innerHTML} offsetTop={10}>
+							<Col span={6}>
+								<Affix key={content} offsetTop={10}>
 									<Card title="文章目录">
-										<Catalog
-											key={this.contentRef.current?.innerHTML}
-											contentRef={this.contentRef.current}
-										></Catalog>
+										<Catalog contentRef={this.contentRef.current}></Catalog>
 									</Card>
 								</Affix>
+								<FloatButton
+									icon={<UpOutlined />}
+									type="primary"
+									shape="square"
+									tooltip="回到顶部"
+									onClick={this.handleToTop}
+								/>
 							</Col>
 						</Row>
 					</div>
