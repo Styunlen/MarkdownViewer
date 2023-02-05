@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import { Location, NavigateFunction } from 'react-router';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import remarkGfm from 'remark-Gfm';
+import remarkGfm from 'remark-gfm';
 interface PropsType {
 	Content?: string;
 	navigate: NavigateFunction;
