@@ -1,3 +1,4 @@
+import { pathResolve } from '@/router/hooks';
 import { withLocation } from '@/utils/withLocation';
 import { withRouter } from '@/utils/withRouter';
 import { InfoCircleTwoTone } from '@ant-design/icons';
@@ -49,7 +50,7 @@ class Editor extends Component<PropsType, StateType> {
 		});
 	};
 	gotoReader() {
-		this.props.navigate('/reader/index', {
+		this.props.navigate(pathResolve('/reader/index'), {
 			state: { content: this.state.content }
 		});
 	}
