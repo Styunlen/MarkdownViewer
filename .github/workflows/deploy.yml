@@ -21,8 +21,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.18.1
-      - run: cd ./packages/markdown-viewer/ && npm install
-      - run: cd ./packages/markdown-viewer/ && npm run build
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
