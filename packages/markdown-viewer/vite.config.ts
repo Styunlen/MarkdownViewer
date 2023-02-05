@@ -18,6 +18,7 @@ export default defineConfig({
 	resolve: {
 		alias
 	},
+	base: '/MarkdownViewer/',
 	build: {
 		sourcemap: false,
 		// 消除打包大小超过500kb警告
