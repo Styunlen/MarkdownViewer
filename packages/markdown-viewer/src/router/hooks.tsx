@@ -25,7 +25,6 @@ const parseRouteConfig = (config: RouteConfig): RouteObject => {
 		path: config?.path,
 		element: config?.element,
 		redirect: async (navigate: NavigateFunction) => {
-			console.log('redirecting');
 			config?.redirect && navigate(config?.redirect);
 		},
 		errorElement: (
