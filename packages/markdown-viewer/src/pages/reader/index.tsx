@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import { Link, Location, NavigateFunction } from 'react-router-dom';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import remarkGfm from 'remark-Gfm';
+import remarkGfm from 'remark-gfm';
 import print from 'print-js';
 import Catalog from './component/Catelog';
 import './reader.css';
