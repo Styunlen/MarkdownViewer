@@ -5,13 +5,11 @@ import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import RouterRoot from './router';
 
-const App: FC = () => (
+const App: React.FC = () => (
 	<div className="App">
-		<React.StrictMode>
-			<BrowserRouter>
-				<RouterRoot></RouterRoot>
-			</BrowserRouter>
-		</React.StrictMode>
+		<BrowserRouter>
+			<RouterRoot></RouterRoot>
+		</BrowserRouter>
 	</div>
 );
 

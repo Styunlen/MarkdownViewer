@@ -32,8 +32,7 @@ export default defineConfig({
 				chunkFileNames: 'static/js/[name]-[hash].js',
 				entryFileNames: 'static/js/[name]-[hash].js',
 				assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
-			},
-			external: ['remark-Gfm']
+			}
 		}
 	}
 });

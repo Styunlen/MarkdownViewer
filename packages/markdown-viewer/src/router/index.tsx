@@ -7,13 +7,14 @@ import {
 	getConfigs,
 	handleConfigs,
 	MenuItemType,
+	pathResolve,
 	RouteObject
 } from './hooks';
 
 const modules: Record<string, any> = import.meta.glob(['./modules/**/*.tsx'], {
 	eager: true
 });
-const configs: Array<RouteConfig> = [];
+export const configs: Array<RouteConfig> = [];
 let routes: Array<RouteObject> = [];
 export const menus: Array<MenuItemType> = [];
 
@@ -27,7 +28,7 @@ menus.push(...getAscendingMenus(configs));
 const RouterRoot: React.FC = memo(() => {
 	const router = useRoutes([
 		{
-			path: '/',
+			path: pathResolve('/'),
 			element: <MarkdownViewerLayout />,
 			errorElement: (
 				<div>

@@ -1,5 +1,6 @@
 import { Empty } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
+import path from 'path-browserify';
 import {
 	NavigateFunction,
 	RouteObject as RouteObjectRaw
@@ -20,12 +21,25 @@ export type MenuItemType = ItemType & {
 	rank;
 };
 
+/**
+ *
+ * @param routePath 路由表中的原始地址
+ * @returns 加上vite.config中定义的base地址后的地址
+ */
+const pathResolve = (routePath: string) => {
+	let baseUrl = import.meta.env?.BASE_URL;
+	if (!baseUrl) {
+		return routePath;
+	}
+	return path.posix.join(baseUrl, routePath);
+};
+
 const parseRouteConfig = (config: RouteConfig): RouteObject => {
 	let ret: RouteObject = {
-		path: config?.path,
+		path: pathResolve(config.path),
 		element: config?.element,
 		redirect: async (navigate: NavigateFunction) => {
-			config?.redirect && navigate(config?.redirect);
+			config?.redirect && navigate(pathResolve(config?.redirect));
 		},
 		errorElement: (
 			<div>
@@ -49,7 +63,7 @@ const parseMenuInfo = (config: RouteConfig): MenuItemType => {
 		icon: config?.meta?.icon,
 		label: config?.meta?.title ?? config?.path,
 		name: config?.name,
-		path: config.path,
+		path: pathResolve(config.path),
 		rank: config?.meta?.rank
 	};
 };
@@ -121,6 +135,7 @@ const flatRoutes = (routes: Array<RouteObject>): Array<RouteObject> => {
 };
 
 export {
+	pathResolve,
 	parseRouteConfig,
 	parseMenuInfo,
 	getConfigs,

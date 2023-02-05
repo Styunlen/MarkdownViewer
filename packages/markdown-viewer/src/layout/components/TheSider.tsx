@@ -1,5 +1,7 @@
-import { menus } from '@/router';
+import { configs, menus } from '@/router';
+import { pathResolve } from '@/router/hooks';
 import { Layout, Menu, theme } from 'antd';
+import path from 'path-browserify';
 import { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 const { Sider } = Layout;
@@ -12,15 +14,27 @@ const TheSider = memo(() => {
 		token: { colorBgContainer }
 	} = theme.useToken();
 
-	const [selectedKeys, setKeys] = useState(['0']);
+	const [selectedKeys, setKeys] = useState([]);
 
 	const refreshMenu = () => {
-		const firstPath = `/${localtion.pathname.split('/')?.[1]}`;
-		// 如果是首页
-		if (firstPath == '/index') {
-			return setKeys(['0']);
+		// 只比较根路径
+		console.log(localtion);
+		if (localtion.pathname == pathResolve('/index')) {
+			return setKeys([0]);
 		}
-		const key = menus.find((item) => firstPath == item.path)?.key;
+		const key =
+			configs.find((item) => {
+				const itemPath = pathResolve(item.path);
+				console.log(localtion.pathname, itemPath);
+				return (
+					// 地址相等
+					itemPath == localtion.pathname ||
+					// 或根目录为当前菜单的根目录,且不是当前匹配项不是首页(所有目录路径都包含首页路径)
+					(localtion.pathname.includes(itemPath) &&
+						itemPath != pathResolve('/'))
+				);
+			})?.meta?.rank ?? -1;
+		console.log(key);
 		setKeys([key?.toString()]);
 	};
 

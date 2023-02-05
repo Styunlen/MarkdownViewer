@@ -11,6 +11,7 @@ import remarkGfm from 'remark-Gfm';
 import print from 'print-js';
 import Catalog from './component/Catelog';
 import './reader.css';
+import { pathResolve } from '@/router/hooks';
 class Reader extends React.Component<
 	{ location: Location; navigate: NavigateFunction },
 	{ content: string }
@@ -32,7 +33,7 @@ class Reader extends React.Component<
 		this.setState({ content: this.props.location.state?.content ?? '' });
 	}
 	handleClick() {
-		this.props.navigate('/editor/index', {
+		this.props.navigate(pathResolve('/editor/index'), {
 			state: { content: this.state.content }
 		});
 	}
